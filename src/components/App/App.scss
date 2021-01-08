@@ -59,10 +59,19 @@
     height: 100%;
     color: darken($color: white, $amount: 10);
 
-    &__copyright {
-      min-width: 350px;
+    &__item {
       padding-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      min-width: 380px;
       border-top: 1px solid #16191f;
+    }
+
+    &__link {
+      text-decoration: none;
+      padding-left: 1rem;
+      color: rgb(243, 92, 92);
     }
   }
 }

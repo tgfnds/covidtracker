@@ -57,7 +57,12 @@ const App = () => {
         </div>
       </div>
       <footer className="footer">
-        <span className="footer__copyright">&copy; Tiago Fernandes - 2020</span>
+        <span className="footer__item">
+          <span>&copy; Tiago Fernandes - 2020</span>
+          <a className="footer__link" href="https://tgfnds.dev">
+            tgfnds.dev
+          </a>
+        </span>
       </footer>
     </div>
   );
