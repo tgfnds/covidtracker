@@ -1,0 +1,49 @@
+.info {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  &__stats {
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    @media screen and (max-width: 1200px) {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .block {
+      box-sizing: border-box;
+      margin: 0.2rem;
+      padding: 1rem 1.4rem;
+      background-color: darken($color: #282c34, $amount: 5);
+      border-radius: 1rem;
+      display: flex;
+      justify-content: center;
+      font-size: 1.3rem;
+
+      &__value--red {
+        color: lightcoral;
+      }
+
+      &__value--green {
+        color: lightgreen;
+      }
+
+      span:first-child {
+        margin-right: 1rem;
+      }
+
+      span:nth-child(2) {
+        overflow: hidden;
+      }
+    }
+  }
+}
