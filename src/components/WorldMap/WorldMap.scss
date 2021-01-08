@@ -55,3 +55,9 @@
     }
   }
 }
+
+@media (max-width: 43rem) {
+  .leaflet-container {
+    min-height: 300px;
+  }
+}

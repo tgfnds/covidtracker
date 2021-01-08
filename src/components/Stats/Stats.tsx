@@ -52,7 +52,6 @@ const Stats = () => {
   ) : (
     <div className="stats">
       <h1>Click a flag</h1>
-      <h1>←</h1>
     </div>
   );
 };

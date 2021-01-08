@@ -75,3 +75,28 @@
     }
   }
 }
+
+@media (max-width: 43em) {
+  .app {
+    .header {
+      padding-top: 2rem;
+    }
+
+    .content {
+      width: 100%;
+
+      &__top {
+        flex-direction: column;
+      }
+    }
+
+    .footer__item {
+      flex-direction: column;
+      min-width: 250px;
+    }
+
+    .footer__link {
+      padding-top: 0.3rem;
+    }
+  }
+}
