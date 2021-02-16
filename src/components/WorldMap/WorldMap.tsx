@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   icon,
   LeafletEvent,
@@ -6,16 +7,17 @@ import {
   Map,
   point,
 } from "leaflet";
-import { useState } from "react";
 import {
   MapContainer,
   TileLayer,
   Marker,
   Tooltip,
   ZoomControl,
+  Circle,
 } from "react-leaflet";
 import { useSelectedCountry } from "../../context/SelectedCountryProvider";
-import { Country } from "../../types";
+import ModeControl from "./ModeControl";
+import { Country, Mode } from "../../types";
 import "./WorldMap.scss";
 
 type Props = {
@@ -31,12 +33,14 @@ const WorldMap = ({ countries }: Props) => {
     DEFAULT_ZOOM * 7.5,
   ]);
   const {
+    selectedCountry,
     setSelectedCountry,
   } = useSelectedCountry() as import("../../context/SelectedCountryProvider").ProviderValue;
+  const [mode, setMode] = useState<Mode>("FLAGS");
 
   const onZoom: LeafletEventHandlerFn = (e: LeafletEvent) => {
     const newZoom = e.target._zoom;
-    setFlagSize([newZoom * 10, newZoom * 7.5]);
+    setFlagSize([newZoom * 8, newZoom * 6]);
   };
 
   const onCreated = (map: Map) => {
@@ -58,7 +62,7 @@ const WorldMap = ({ countries }: Props) => {
   return (
     <div className="worldmap">
       <MapContainer
-        center={[48, 0]}
+        center={[48, 10]}
         minZoom={MIN_ZOOM}
         maxZoom={MAX_ZOOM}
         zoom={DEFAULT_ZOOM}
@@ -66,47 +70,43 @@ const WorldMap = ({ countries }: Props) => {
         zoomControl={false}
         whenCreated={(map) => onCreated(map)}
       >
-        <ZoomControl position="topright" />
+        <ZoomControl />
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {countries.map((country, index) => (
-          <Marker
-            key={country.countryInfo._id ?? `CustomId_${index}`}
-            riseOnHover
-            icon={icon({
-              iconUrl: country.countryInfo.flag,
-              iconSize: point(flagSize[0], flagSize[1]),
-            })}
-            eventHandlers={{ click: (e) => onMarkerClicked(e) }}
-            position={[country.countryInfo.lat, country.countryInfo.long]}
-          >
-            <Tooltip direction="top">{country.country}</Tooltip>
-            {/* <Popup className="popup">
-              <h1 className="popup__title">{country.country}</h1>
-              <h4 className="popup__subtitle">Pop: {country.population}</h4>
-              <div className="popup__info">
-                <div className="row">
-                  <div>Cases:</div>
-                  <div>{country.cases}</div>
-                </div>
-                <div className="row">
-                  <div>Deaths:</div>
-                  <div>{country.deaths}</div>
-                </div>
-                <div className="row">
-                  <div>Recovered:</div>
-                  <div>{country.recovered}</div>
-                </div>
-                <div className="row">
-                  <div>Active:</div>
-                  <div>{country.active}</div>
-                </div>
-              </div>
-            </Popup> */}
-          </Marker>
-        ))}
+        <ModeControl
+          position="topright"
+          change={(mode: Mode) => setMode(mode)}
+        />
+        {mode === "FLAGS" &&
+          countries.map((country, index) => (
+            <Marker
+              key={country.countryInfo._id ?? `CustomId_${index}`}
+              riseOnHover
+              icon={icon({
+                iconUrl: country.countryInfo.flag,
+                iconSize: point(flagSize[0], flagSize[1]),
+                className:
+                  selectedCountry.code === country.country
+                    ? "flag-icon flag-icon_selected"
+                    : "flag-icon",
+              })}
+              eventHandlers={{ click: (e) => onMarkerClicked(e) }}
+              position={[country.countryInfo.lat, country.countryInfo.long]}
+            >
+              <Tooltip direction="top">{country.country}</Tooltip>
+            </Marker>
+          ))}
+        {mode === "RED_ZONES" &&
+          countries.map((country, index) => (
+            <Circle
+              key={country.countryInfo._id ?? `CustomId_${index}`}
+              center={[country.countryInfo.lat, country.countryInfo.long]}
+              radius={country.activePerOneMillion * 10}
+              color="red"
+            />
+          ))}
       </MapContainer>
     </div>
   );

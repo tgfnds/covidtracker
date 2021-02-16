@@ -1,0 +1,17 @@
+.modeToggle {
+  height: 30px;
+  display: flex;
+
+  &_button {
+    background-color: #fff;
+    border-radius: 2px;
+    color: black;
+    font-weight: 600;
+    font-family: "Proza Libre", sans-serif;
+
+    &:hover {
+      background-color: darken($color: #fff, $amount: 4);
+      cursor: pointer;
+    }
+  }
+}

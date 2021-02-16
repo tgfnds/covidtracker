@@ -1,3 +1,5 @@
+import { Control } from "leaflet";
+
 export interface Global {
   updated: number;
   cases: number;
@@ -80,4 +82,10 @@ export interface ChartData {
 export interface SelectedCountry {
   code: string | null;
   data: Country | null;
+}
+
+export type Mode = "FLAGS" | "RED_ZONES";
+
+export interface ModeToggle extends Control {
+  onChange: (mode: Mode) => void;
 }
