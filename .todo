@@ -1,0 +1,7 @@
+Project:
+	Features:
+		☐ Install and setup react-router.
+		☐ Create a table for stats in another route.
+		☐ Refactor api calls into hooks.
+
+	Bugs:
